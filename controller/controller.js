@@ -20,11 +20,11 @@ router.get('/getmovies', (req, res) => {
     } else {
         wherecondition[Op.or] = [{
             Name: {
-                [Op.like]: `%${req.query.search}%`
+                [Op.iLike]: `%${req.query.search}%`
             }
         }, {
             Director: {
-                [Op.like]: `%${req.query.search}%`
+                [Op.iLike]: `%${req.query.search}%`
             }
         }];
     }
