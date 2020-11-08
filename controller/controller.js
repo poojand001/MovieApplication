@@ -48,6 +48,23 @@ router.get('/getmovies', (req, res) => {
     });
 });
 
+
+//Get all the distinct genres
+router.get('/getgenres', (req, res) => {
+    db.Genres.findAll().then(function(genre) {
+        return res.status(200).send({
+            message: `Successfully fetched all distinct genres`,
+            data: genre
+        });
+    }).catch(function(err) {
+        {
+            return res.send({
+                message: err
+            });
+        }
+    });
+});
+
 //Add movie and genres associated to it
 router.post('/addmovie', [authJwt.verifytoken], (req, res) => {
     db.Genres.findAll().then(function(genrelist) {
