@@ -68,10 +68,10 @@ router.get('/getgenres', (req, res) => {
 //Add movie and genres associated to it
 router.post('/addmovie', [authJwt.verifytoken], (req, res) => {
     db.Genres.findAll().then(function(genrelist) {
-        let list = req.body.genre;
+        let list = req.body.genre.map(s => s.trim());
         var presentgenres = []; //Current list of genres Name present in Genre table
         for (let i = 0; i < genrelist.length; i++) {
-            presentgenres.push(genrelist[i].Name);
+            presentgenres.push(genrelist[i].Name.trim());
         }
         if (genrelist.length)
             list = list.filter(f => !presentgenres.includes(f)); //Get the new genres that are not present in Genre table
@@ -100,7 +100,7 @@ router.post('/addmovie', [authJwt.verifytoken], (req, res) => {
                 }
                 for (let i = 0; i < req.body.genre.length; i++) {
                     genreid.push({
-                        GenreId: genreidname[req.body.genre[i]],
+                        GenreId: genreidname[req.body.genre[i].trim()],
                         MovieId: movie.Id
                     });
                 }
@@ -177,10 +177,10 @@ router.post('/editmovie', [authJwt.verifytoken], (req, res) => {
             }
         }).then(function(data) {
             db.Genres.findAll().then(function(data) {
-                let list = req.body.genre;
+                let list = req.body.genre.map(s => s.trim());
                 let presentgenre = []; //Currently present distinct genres
                 for (let i = 0; i < data.length; i++) {
-                    presentgenre.push(data[i].Name);
+                    presentgenre.push(data[i].Name.trim());
                 }
                 if (data.length) {
                     list = list.filter(f => !presentgenre.includes(f)); //List will contain if new genres has to be added in Genre table
@@ -207,7 +207,7 @@ router.post('/editmovie', [authJwt.verifytoken], (req, res) => {
                     for (let i = 0; i < req.body.genre.length; i++) {
                         bulkgenreupdate.push({
                             MovieId: req.body.movieid,
-                            GenreId: genreidname[req.body.genre[i]]
+                            GenreId: genreidname[req.body.genre[i].trim()]
                         });
                     }
                     db.MoviesGenres.bulkCreate(bulkgenreupdate).then(function(data) { //Bulk add the different genre associated with this movie in MovieGenre table
