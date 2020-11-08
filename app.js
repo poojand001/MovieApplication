@@ -5,11 +5,8 @@ require('dotenv').config()
 const db = require("./models/database.js");
 const app = express();
 const router = require('./controller/controller.js')
-var corsOptions = {
-    origin: "http://localhost:8081"
-};
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
