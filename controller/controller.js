@@ -100,7 +100,7 @@ router.post('/addmovie', [authJwt.verifytoken], (req, res) => {
                 }
                 for (let i = 0; i < req.body.genre.length; i++) {
                     genreid.push({
-                        GenreId: genreidname[req.body.genre[i]],
+                        GenreId: genreidname[req.body.genre[i].trim()],
                         MovieId: movie.Id
                     });
                 }
@@ -202,7 +202,7 @@ router.post('/editmovie', [authJwt.verifytoken], (req, res) => {
                 ).then(function(addedgenre) {
                     let bulkgenreupdate = [];
                     for (let i = 0; i < addedgenre.length; i++) {
-                        genreidname[addedgenre[i].Name] = addedgenre[i].Id;
+                        genreidname[addedgenre[i].Name.trim()] = addedgenre[i].Id;
                     }
                     for (let i = 0; i < req.body.genre.length; i++) {
                         bulkgenreupdate.push({
