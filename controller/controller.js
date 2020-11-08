@@ -78,7 +78,7 @@ router.post('/addmovie', [authJwt.verifytoken], (req, res) => {
         let genreinsert = [];
         for (let i = 0; i < list.length; i++) {
             genreinsert.push({
-                Name: list[i]
+                Name: list[i].trim()
             });
         }
         let genreidname = {}
@@ -96,11 +96,11 @@ router.post('/addmovie', [authJwt.verifytoken], (req, res) => {
                 Popularity: req.body.popularity,
             }).then(function(movie) {
                 for (let i = 0; i < data.length; i++) {
-                    genreidname[data[i].Name] = data[i].Id; //Mapping of Name and Id of Genre table
+                    genreidname[data[i].Name.trim()] = data[i].Id; //Mapping of Name and Id of Genre table
                 }
                 for (let i = 0; i < req.body.genre.length; i++) {
                     genreid.push({
-                        GenreId: genreidname[req.body.genre[i].trim()],
+                        GenreId: genreidname[req.body.genre[i]],
                         MovieId: movie.Id
                     });
                 }
@@ -189,7 +189,7 @@ router.post('/editmovie', [authJwt.verifytoken], (req, res) => {
 
                 for (let i = 0; i < list.length; i++) {
                     genrelist.push({
-                        Name: list[i]
+                        Name: list[i].trim()
                     });
                 }
                 let genreidname = {}; //Id and name mapping for genres
