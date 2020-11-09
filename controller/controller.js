@@ -280,7 +280,7 @@ router.post('/login', (req, res) => { //login of admin and generating access tok
         }
     }).then(function(user) {
         if (!user) {
-            return res.send({
+            return res.status(401).send({
                 message: "EmailId does not exist"
             });
         }
@@ -290,7 +290,7 @@ router.post('/login', (req, res) => { //login of admin and generating access tok
             user.Password
         );
         if (!passwordIsValid) {
-            return res.send({
+            return res.status(401).send({
                 accessToken: null,
                 message: "Invalid Password!"
             });
